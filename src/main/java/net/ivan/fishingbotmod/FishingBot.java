@@ -32,6 +32,7 @@ public class FishingBot {
     private static FishingHook bobber = null;
     private static long castTime = 0;
     private static final long CHECK_DELAY = 2000; // 2 seconds in milliseconds
+    private static final long RECAST_DELAY = 1000;
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
@@ -44,7 +45,7 @@ public class FishingBot {
             if (offHandItem.getItem() == Items.NAUTILUS_SHELL && mainHandItem.getItem() == Items.FISHING_ROD) {
                 long currentTime = System.currentTimeMillis();
 
-                if (!isFishing) {
+                if (!isFishing && currentTime - castTime >= RECAST_DELAY) {
                     // Perform right-click action to cast the fishing rod
                     mc.gameMode.useItem(player, InteractionHand.MAIN_HAND);
                     isFishing = true;
@@ -59,6 +60,7 @@ public class FishingBot {
                             // Perform right-click action to reel in the fishing rod
                             mc.gameMode.useItem(player, InteractionHand.MAIN_HAND);
                             isFishing = false;
+                            castTime = currentTime;
                         }
                     }
                 }
