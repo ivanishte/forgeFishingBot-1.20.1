@@ -1,6 +1,6 @@
 package net.ivan.fishingbotmod;
 
-//like actually please work this time, i hate github repositories *takes off pants and starts howling*
+//BROOOOO LIKE ARGHHHHHHHHH
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
