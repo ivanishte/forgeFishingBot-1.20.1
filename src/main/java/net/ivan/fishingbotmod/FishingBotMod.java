@@ -1,6 +1,6 @@
 package net.ivan.fishingbotmod;
 
-//lets test this
+//lets test this out
 
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.api.distmarker.Dist;
