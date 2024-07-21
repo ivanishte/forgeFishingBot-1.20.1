@@ -1,6 +1,6 @@
 package net.ivan.fishingbotmod;
 
-//try to make the player hit every 2 seconds when they hold a tripwire hook in their off-hand.
+//testing if this github shi works
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
