@@ -1,9 +1,8 @@
 package net.ivan.fishingbotmod;
 
-//BROOOOO LIKE ARGHHHHHHHHH
+//github better work this time
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
