@@ -1,6 +1,6 @@
 package net.ivan.fishingbotmod;
 
-//testing if this github shi works
+//testing if this github shi works BRUH
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
