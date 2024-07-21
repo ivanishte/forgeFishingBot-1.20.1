@@ -1,6 +1,9 @@
-package net.ivan.headlampmod;
+package net.ivan.fishingbotmod;
+
+//try to make the player hit every 2 seconds when they hold a tripwire hook in their off-hand.
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -13,12 +16,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-@Mod(net.ivan.headlampmod.HeadLampMod.MODID)
-public class HeadLampMod {
-    public static final String MODID = "headlampmod";
+@Mod(FishingBotMod.MODID)
+public class FishingBotMod {
+    public static final String MODID = "fishingbotmod";
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public HeadLampMod() {
+    public FishingBotMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);

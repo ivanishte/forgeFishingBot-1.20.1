@@ -1,1 +1,3 @@
-...
+the fishingbot is enabled when you hold a nautilus
+shell in your offhand and a fishing rod in your
+main hand. 
