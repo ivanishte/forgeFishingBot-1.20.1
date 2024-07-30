@@ -40,13 +40,10 @@ public class FishingBot {
                 }
 
                 // Check if we can cast the fishing rod
-                if (!isFishing && currentTime - castTime >= RECAST_DELAY
-                        && hasSufficientDurability(mainHandItem)
-                        /*&& currentTime - specialCaseCastTime >= SPECIAL_CASE_DELAY*/) {
+                if (!isFishing && currentTime - castTime >= RECAST_DELAY && hasSufficientDurability(mainHandItem)) {
                     mc.gameMode.useItem(player, InteractionHand.MAIN_HAND);
                     isFishing = true;
                     castTime = currentTime;
-                    /*specialCaseCastTime = currentTime;*/
                 }
 
                 if (isFishing && currentTime - castTime >= CHECK_DELAY) {
