@@ -1,21 +1,13 @@
 package net.ivan.fishingbotmod;
 
-/*
-DESIRED MECHANICS:
-when holding nautilus shell in off-hand cast fishing rod
-and reel in when player has caught something, repeat.
-*/
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -23,11 +15,14 @@ import net.minecraftforge.fml.common.Mod;
 public class FishingBot {
 
     private static final Minecraft mc = Minecraft.getInstance();
+
     private static boolean isFishing = false;
     private static FishingHook bobber = null;
     private static long castTime = 0;
+    private static long specialCaseCastTime = 0;
     private static final long CHECK_DELAY = 2000; // 2 seconds in milliseconds
     private static final long RECAST_DELAY = 1000;
+    private static final long SPECIAL_CASE_DELAY = 4000;
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
@@ -36,23 +31,34 @@ public class FishingBot {
             ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
             ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
 
-            // Check if the player is holding a nautilus shell in their offhand and a fishing rod in their main hand
-            if (offHandItem.getItem() == Items.NAUTILUS_SHELL && mainHandItem.getItem() == Items.FISHING_ROD) {
+            // Check if the player is holding appropriate items in hands
+            if (offHandItem.getItem() == Items.HEART_OF_THE_SEA && mainHandItem.getItem() == Items.FISHING_ROD) {
                 long currentTime = System.currentTimeMillis();
 
-                if (!isFishing && currentTime - castTime >= RECAST_DELAY) {
-                    // Perform right-click action to cast the fishing rod
+                if (currentTime - specialCaseCastTime < SPECIAL_CASE_DELAY) {
+                    return;
+                }
+
+                // Check if we can cast the fishing rod
+                if (!isFishing && currentTime - castTime >= RECAST_DELAY
+                        && hasSufficientDurability(mainHandItem)
+                        /*&& currentTime - specialCaseCastTime >= SPECIAL_CASE_DELAY*/) {
                     mc.gameMode.useItem(player, InteractionHand.MAIN_HAND);
                     isFishing = true;
                     castTime = currentTime;
+                    /*specialCaseCastTime = currentTime;*/
                 }
 
-                // Check if the delay has passed before checking the bobber
                 if (isFishing && currentTime - castTime >= CHECK_DELAY) {
                     if (player.fishing != null) {
                         bobber = player.fishing;
-                        if (bobber.isUnderWater()) {
-                            // Perform right-click action to reel in the fishing rod
+                        net.minecraft.world.entity.Entity hookedEntity = bobber.getHookedIn();
+
+                        if (hookedEntity != null) {
+                            mc.gameMode.useItem(player, InteractionHand.MAIN_HAND);
+                            isFishing = false;
+                            specialCaseCastTime = currentTime;
+                        } else if (bobber.isUnderWater()) {
                             mc.gameMode.useItem(player, InteractionHand.MAIN_HAND);
                             isFishing = false;
                             castTime = currentTime;
@@ -66,6 +72,17 @@ public class FishingBot {
             }
         }
     }
+
+    private static boolean hasSufficientDurability(ItemStack item) {
+        int damage = item.getDamageValue();
+        int maxDamage = item.getMaxDamage();
+        int remainingDurability = maxDamage - damage;
+
+        // Check if the remaining durability is greater than 16
+        return remainingDurability > 16;
+    }
 }
+
+
 
 
